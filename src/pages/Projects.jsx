@@ -15,7 +15,6 @@ const Projects = () => {
     setProjects([]);
     let data = JSON.parse(localStorage.getItem('Projects'))
     if (data !== null) {
-      console.log(data[0].items)
       setProjects(data[0].items)
     } else {
       setProjects([]);

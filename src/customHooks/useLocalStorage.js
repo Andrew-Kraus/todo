@@ -120,11 +120,18 @@ function useLocalStorage() {
                 let taskIndex = data[0].items[index].items[currentBoard.id - 1].items.findIndex(e => e.id === currentTask.id)
                 data[0].items[index].items[currentBoard.id - 1].items[taskIndex].files.push(base64);
                 localStorage.setItem('Projects', JSON.stringify(data));
-                setCurrentData(data[0].items[index].items);
+                dispatch(setCurrentData(data[0].items[index].items));
                 dispatch(setCurrentFiles(data[0].items[index].items[currentBoard.id - 1].items[taskIndex].files));
                 dispatch(setUploadedFile(null))
             })
                 .catch((err) => console.log(err))
+        } if (key === 'fileDelete') {
+            let taskIndex = data[0].items[index].items[currentBoard.id - 1].items.findIndex(e => e.id === currentTask.id)
+            let fileIndex = data[0].items[index].items[currentBoard.id - 1].items[taskIndex].files.findIndex(e => e === item);
+            data[0].items[index].items[currentBoard.id - 1].items[taskIndex].files.splice(fileIndex, 1)
+            localStorage.setItem('Projects', JSON.stringify(data));
+            dispatch(setCurrentData(data[0].items[index].items));
+            dispatch(setCurrentFiles(data[0].items[index].items[currentBoard.id - 1].items[taskIndex].files));
         } if (key === 'taskDelete') {
             let taskIndex = data[0].items[index].items[currentBoard.id - 1].items.findIndex(e => e.id === currentTask.id)
             data[0].items[index].items[currentBoard.id - 1].items.splice(taskIndex, 1);

@@ -816,3 +816,15 @@ body {
     max-width: 320px;
     overflow: hidden;
 }
+
+.task-modal__image-container {
+    position: relative;
+}
+
+.task-modal__image-delete {
+    font-size: 15px;
+    color: #fff;
+    position: absolute;
+    top: -8px;
+    right: -3px;
+}

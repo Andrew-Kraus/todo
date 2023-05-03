@@ -12,7 +12,7 @@ import { declension, dateDiff } from '../helpers/helpers';
 import Subtask from './Subtask';
 
 function ModalTask() {
-  const { updateLocalStorageAndState } = useLocalStorage() 
+  const { updateLocalStorageAndState } = useLocalStorage()
   const [isFormValid, setIsFormValid] = useState(false);
   const [isFormTouched, setIsFormTouched] = useState(false)
   const [commentText, setCommentText] = useState('');
@@ -39,6 +39,12 @@ function ModalTask() {
     if (e.target.files[0]) {
       dispatch(setUploadedFile(e.target.files[0]))
     }
+  }
+
+  function fileDelete(e, file) {
+    e.preventDefault()
+    e.stopPropagation()
+    updateLocalStorageAndState('fileDelete', file)
   }
 
   function openModalAndSaveValue() {
@@ -97,11 +103,15 @@ function ModalTask() {
             <label className="input-file">
               <input type="file" name="file" onChange={(e) => fileLoading(e)}></input>
               <span className="task-modal__button-upload">Выберите файл</span>
-              <button className="task-modal__button-submit" onClick={() => updateLocalStorageAndState('fileSubmit', uploadedFile)}>Прикрепить</button>
+              <button className="task-modal__button-submit" disabled={uploadedFile ? false : true} onClick={() => updateLocalStorageAndState('fileSubmit', uploadedFile)}>Прикрепить</button>
             </label>
             <div className="task-modal__files">
               {currentFiles && currentFiles.map((file, index) => {
-                return (<a href={file} download key={index}><img className="task-modal__image" alt="" src={file} onError={e => { e.currentTarget.src = "error.png" }} /></a>)
+                return (
+                  <a className='task-modal__image-container' href={file} download key={index}>
+                    <p className='task-modal__image-delete' onClick={(e) => fileDelete(e, file)}>x</p>
+                    <img className="task-modal__image" alt="" src={file} onError={e => { e.currentTarget.src = "error.png" }}/>
+                  </a>)
               })}
             </div>
             <h3 className='task-modal__subtitle'>Комментарии:</h3>
